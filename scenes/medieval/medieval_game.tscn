@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://medieval_game"]
+
+[ext_resource type="Script" path="res://scenes/medieval/medieval_game.gd" id="1"]
+
+[node name="MedievalGame" type="Node3D"]
+script = ExtResource("1")
