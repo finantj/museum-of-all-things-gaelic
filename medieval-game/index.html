@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loch Cé — Moylurg, AD 1250</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Loading screen -->
+  <div id="loading-screen">
+    <div class="loading-content">
+      <h1>Loch Cé</h1>
+      <p class="subtitle">The MacDermot Lordship of Moylurg</p>
+      <p class="era">County Roscommon — Anno Domini 1250</p>
+      <div class="loading-bar-container">
+        <div class="loading-bar" id="loading-bar"></div>
+      </div>
+      <p class="loading-text" id="loading-text">Loading terrain...</p>
+    </div>
+  </div>
+
+  <!-- Start screen -->
+  <div id="start-screen" style="display:none">
+    <div class="start-content">
+      <h1>Loch Cé</h1>
+      <p class="subtitle">The MacDermot Lordship of Moylurg</p>
+      <p class="era">County Roscommon — Anno Domini 1250</p>
+      <div class="lore-text">
+        <p>You awaken on the eastern shore of Lough Key, in the heart of Connacht.
+        The MacDermot lords rule these lands from their island fortress — The Rock.
+        Monks preserve ancient knowledge on Trinity Island. Wolves prowl the oak forests of Moylurg.</p>
+        <p>Gather resources. Craft tools and weapons. Build shelter. Survive.</p>
+      </div>
+      <button id="start-button">Enter Moylurg</button>
+      <div class="controls-preview">
+        <span>WASD — Move</span>
+        <span>Mouse — Look</span>
+        <span>Shift — Sprint</span>
+        <span>Space — Jump</span>
+        <span>E — Interact</span>
+        <span>LMB — Attack/Harvest</span>
+        <span>Tab — Inventory</span>
+        <span>C — Crafting</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HUD -->
+  <div id="hud" style="display:none">
+    <!-- Crosshair -->
+    <div id="crosshair">+</div>
+
+    <!-- Health/Stamina/Hunger bars -->
+    <div id="stat-bars">
+      <div class="stat-row">
+        <span class="stat-label">Health</span>
+        <div class="stat-bar-bg"><div class="stat-bar" id="health-bar"></div></div>
+        <span class="stat-value" id="health-value">25/25</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Stamina</span>
+        <div class="stat-bar-bg"><div class="stat-bar" id="stamina-bar"></div></div>
+        <span class="stat-value" id="stamina-value">50/50</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Hunger</span>
+        <div class="stat-bar-bg"><div class="stat-bar" id="hunger-bar"></div></div>
+        <span class="stat-value" id="hunger-value">80/100</span>
+      </div>
+    </div>
+
+    <!-- Day/time -->
+    <div id="day-time">Moylurg — Dawn</div>
+
+    <!-- Interaction prompt -->
+    <div id="interact-prompt"></div>
+
+    <!-- Notification -->
+    <div id="notification"></div>
+
+    <!-- Dialogue box -->
+    <div id="dialogue-box" style="display:none">
+      <div id="dialogue-name"></div>
+      <div id="dialogue-text"></div>
+      <div class="dialogue-hint">[E] Continue</div>
+    </div>
+
+    <!-- Quick bar -->
+    <div id="quickbar">
+      <div class="quickbar-slot" data-slot="0"><span class="slot-key">1</span></div>
+      <div class="quickbar-slot" data-slot="1"><span class="slot-key">2</span></div>
+      <div class="quickbar-slot" data-slot="2"><span class="slot-key">3</span></div>
+      <div class="quickbar-slot" data-slot="3"><span class="slot-key">4</span></div>
+      <div class="quickbar-slot" data-slot="4"><span class="slot-key">5</span></div>
+      <div class="quickbar-slot" data-slot="5"><span class="slot-key">6</span></div>
+      <div class="quickbar-slot" data-slot="6"><span class="slot-key">7</span></div>
+      <div class="quickbar-slot" data-slot="7"><span class="slot-key">8</span></div>
+    </div>
+
+    <!-- Minimap -->
+    <div id="minimap">
+      <canvas id="minimap-canvas" width="160" height="160"></canvas>
+      <div id="minimap-label">Loch Cé</div>
+    </div>
+  </div>
+
+  <!-- Inventory panel -->
+  <div id="inventory-panel" style="display:none">
+    <div class="panel-header">
+      <h2>Inventory — Málaí</h2>
+      <span class="panel-close" data-panel="inventory-panel">&times;</span>
+    </div>
+    <div id="inventory-grid"></div>
+    <div id="inventory-weight">Weight: 0 / 300</div>
+  </div>
+
+  <!-- Crafting panel -->
+  <div id="crafting-panel" style="display:none">
+    <div class="panel-header">
+      <h2>Crafting — Ceardaíocht</h2>
+      <span class="panel-close" data-panel="crafting-panel">&times;</span>
+    </div>
+    <div id="crafting-categories">
+      <button class="craft-cat active" data-cat="all">All</button>
+      <button class="craft-cat" data-cat="tools">Tools</button>
+      <button class="craft-cat" data-cat="weapons">Weapons</button>
+      <button class="craft-cat" data-cat="armor">Armor</button>
+      <button class="craft-cat" data-cat="building">Building</button>
+      <button class="craft-cat" data-cat="food">Food</button>
+    </div>
+    <div id="crafting-list"></div>
+    <div id="crafting-detail">
+      <div id="craft-name"></div>
+      <div id="craft-desc"></div>
+      <div id="craft-ingredients"></div>
+      <button id="craft-button" disabled>Craft</button>
+    </div>
+  </div>
+
+  <!-- Pause menu -->
+  <div id="pause-menu" style="display:none">
+    <div class="pause-content">
+      <h1>Loch Cé</h1>
+      <p class="subtitle">Moylurg — Anno Domini 1250</p>
+      <button id="resume-button">Resume</button>
+      <button id="controls-button">Controls</button>
+      <button id="quit-button">Quit</button>
+    </div>
+  </div>
+
+  <!-- Death screen -->
+  <div id="death-screen" style="display:none">
+    <div class="death-content">
+      <h1>You have fallen</h1>
+      <p>Your spirit returns to the shore of Lough Key...</p>
+      <button id="respawn-button">Respawn</button>
+    </div>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
