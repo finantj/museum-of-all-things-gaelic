@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://medieval_player"]
-
-[ext_resource type="Script" path="res://scenes/medieval/player/player_controller.gd" id="1"]
-
-[node name="Player" type="CharacterBody3D"]
-collision_layer = 1048576
-collision_mask = 1
-script = ExtResource("1")
